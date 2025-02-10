@@ -7,9 +7,18 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        Roboto: ['"Roboto,"', "sans-serif"],
+        RacingSans: ['"Racing Sans One", "sans-serif"'],
+        Ubuntu: ['"Ubuntu", "sans-serif"'],
+      },
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        background: "#5E2E53",
+        boxColor: " #EAEAEA",
+        card: "#E1A1E9",
+      },
+      backgroundImage: {
+        test: "/images/splash-image.jpg",
       },
     },
   },
