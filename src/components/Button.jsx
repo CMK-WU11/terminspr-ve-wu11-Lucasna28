@@ -1,7 +1,25 @@
-export default function Button({props}){
-    return(
-        <button className="bg-background w-10 h-6 text-white px-8 py-4 rounded-md shadow-black">
-            {props}
+import Link from "next/link"
+
+export default function Button ({ href, type, children}) {
+
+    // Hvis der er en href prop, returner en Link komponent
+    if (href) {
+        return (
+            <Link
+                href={href} 
+                className="bg-background px-4 py-2 rounded text-white w-full"
+            >
+                {children}
+            </Link>
+        )
+    }
+
+    return (
+        <button
+            type={type || "submit"}
+            className="bg-background px-4 py-2 rounded text-white w-full"
+        >
+            {children}
         </button>
     )
 }

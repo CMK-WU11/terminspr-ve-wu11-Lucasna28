@@ -5,26 +5,33 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 export default async function Login(prevState, formData) {
-  const identifier = formData.get("identifier");
+  // Henter username, password og remember valg fra form data
+  const username = formData.get("username");
   const password = formData.get("password");
+  const remember = formData.get("remember") === "on";
 
+  // Validerer input med Zod schema
   const schema = z.object({
-    identifier: z
+    username: z
       .string()
-      .min(1, { message: "Du skal udfylde en email" })
-      .email({ message: "Ugyldig email" }),
-    password: z.string().min(1, { message: "Du skal udfylde et password" }),
+      .min(1, { message: "Du skal udfylde et brugernavn" })
+      .min(3, { message: "Brugernavnet skal være mindst 3 tegn" }),
+    password: z
+      .string()
+      .min(1, { message: "Du skal udfylde et password" })
+      .min(4, { message: "Password skal være mindst 4 tegn" }),
   });
 
   const validate = schema.safeParse({
-    identifier,
+    username,
     password,
   });
 
+  // Returnerer fejl hvis validering fejler
   if (!validate.success) {
     return {
       formData: {
-        identifier,
+        username,
         password,
       },
       errors: validate.error.format(),
@@ -32,35 +39,41 @@ export default async function Login(prevState, formData) {
   }
 
   try {
-    const response = await fetch("https://dinmaegler.onrender.com/auth/local", {
+    // Sender login request til API
+    const response = await fetch("http://localhost:4000/auth/token", {
       method: "POST",
       headers: {
-        "content-type": "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        identifier,
+        username,
         password,
       }),
     });
 
+    // Håndterer forkert login
     if (response.status === 400) {
-      // Bad request
       return {
         formData: {
-          identifier,
+          username,
           password,
         },
-        error: "Forkert email eller password",
+        error: "Forkert brugernavn eller password",
       };
     }
 
     const data = await response.json();
 
+    // Hvis "Husk mig" er valgt, gem i 24 timer (maxAge)
+    // Ellers gem som session cookie der slettes når browseren lukkes
     const cookieStore = await cookies();
-    cookieStore.set("repe_token", data.jwt, { maxAge: 60 * 60 * 24 });
-    cookieStore.set("repe_uid", data.user.id, { maxAge: 60 * 60 * 24 });
+    const cookieOptions = {
+      ...(remember ? { maxAge: 60 * 60 * 24 } : {}),
+    };
+
+    cookieStore.set("landrupDans_token", data.token, cookieOptions);
+    cookieStore.set("LandrupDans_uid", data.userId, cookieOptions);
   } catch (error) {
     throw new Error(error);
   }
-  redirect("/");
 }
