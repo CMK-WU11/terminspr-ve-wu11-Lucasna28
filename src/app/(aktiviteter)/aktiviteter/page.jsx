@@ -27,7 +27,7 @@ export default function Aktiviteter() {
             
             {/* Suspense viser skeleton komponenter mens vi venter på data */}
             <Suspense fallback={
-                <ul className="p-4 flex flex-col h-full justify-start gap-6">
+                <ul className="p-4 flex flex-col h-screen justify-start gap-6">
                     {[...Array(3)].map((_, i) => (
                         <AktiviteterSkeleton key={i} />
                     ))}

@@ -6,31 +6,22 @@ import AktivitetDetaljerSkeleton from "@/components/skeletons/AktivitetDetaljerS
 import AddButton from "@/components/AddButton"
 
 // Tjek om brugeren er tilmeldt aktiviteten
-async function getTilmeldingsStatus(aktivitetId, userId, token) {
-    if (!token || !userId) return false
-    
-    try {
-        await serverFetch(
-            `http://localhost:4000/api/v1/users/${userId}/activities/${aktivitetId}`,
-            {
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            }
-        )
-        return true
-    } catch {
-        return false
-    }
+async function getTilmeldingsStatus(aktivitet, userId) {
+    if (!userId || !aktivitet.users) return false
+
+    //tjekker om brugerens id findes i aktivitetens users array
+    return aktivitet.users.some(user => user.id === parseInt(userId))    
 }
 
 async function AktivitetDetaljer({ id }) {
     const aktivitet = await serverFetch(`http://localhost:4000/api/v1/activities/${id}`)
+    console.log(aktivitet);
+    
     const cookieStore = cookies()
     const token = cookieStore.get("landrupDans_token")?.value
     const userId = cookieStore.get("LandrupDans_uid")?.value
     
-    const erTilmeldt = await getTilmeldingsStatus(id, userId, token)
+    const erTilmeldt = await getTilmeldingsStatus(aktivitet, userId)
     
     await new Promise(resolve => setTimeout(resolve, 500))
     
@@ -38,7 +29,6 @@ async function AktivitetDetaljer({ id }) {
         <article className="relative h-screen w-screen">
             <div className="w-screen h-2/3 object-contain relative">
                 <Image src={aktivitet.asset.url} fill className="object-cover" alt="aktivitets billede" />
-                
                 <div className="absolute bottom-10 right-2">
                     <AddButton 
                         aktivitetId={id}

@@ -1,9 +1,11 @@
 import Button from "./Button"
 import { serverFetch } from "@/lib/server-fetch"
+import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 
 export default async function AddButton({ aktivitetId, erTilmeldt, token, userId }) {
     if (!token || !userId) {
+        
         return (
             <Button href="/logind">
                 Log ind for tilmeldning
@@ -15,8 +17,9 @@ export default async function AddButton({ aktivitetId, erTilmeldt, token, userId
         "use server"
         
         try {
-            await serverFetch(
+            const result = await serverFetch(
                 `http://localhost:4000/api/v1/users/${userId}/activities/${aktivitetId}`,
+
                 {
                     method: erTilmeldt ? "DELETE" : "POST",
                     headers: {
@@ -24,10 +27,15 @@ export default async function AddButton({ aktivitetId, erTilmeldt, token, userId
                     }
                 }
             )
+            
+            
+            // Revalidate og redirect
+            revalidatePath('/kalender')
+            revalidatePath(`/aktiviteter/${aktivitetId}`)
+            redirect(`/aktiviteter/${aktivitetId}`)
         } catch (error) {
-            console.error("Fejl ved tilmelding:", error)
+            console.error("Fejl ved tilmelding/afmelding:", error)
         }
-        redirect(`/aktiviteter/${aktivitetId}`)
     }
 
     return (

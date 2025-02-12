@@ -68,6 +68,7 @@ export default async function Login(prevState, formData) {
     // Ellers gem som session cookie der slettes når browseren lukkes
     const cookieStore = await cookies();
     const cookieOptions = {
+      // Hvis remember er false, udelades maxAge så cookien bliver en session cookie
       ...(remember ? { maxAge: 60 * 60 * 24 } : {}),
     };
 

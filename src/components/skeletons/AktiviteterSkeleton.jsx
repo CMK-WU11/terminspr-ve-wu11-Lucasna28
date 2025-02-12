@@ -1,3 +1,4 @@
+
 export default function AktiviteterSkeleton(){
     return(
         <li className="w-full h-[20rem] rounded-t-[2rem] rounded-bl-[2rem] overflow-hidden shadow-md flex flex-col justify-end relative">

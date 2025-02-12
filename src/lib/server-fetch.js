@@ -12,6 +12,11 @@ export async function serverFetch(url, options = {}) {
       throw new Error(`Fejl ${response.status}: ${response.statusText}`);
     }
 
+    //Hvis det er et DELETE requist, retuner true ved succes
+    if (options.method === "DELETE") {
+      return response.ok;
+    }
+
     return await response.json();
   } catch (error) {
     throw new Error(`Fetch fejl: ${error.message}`);
