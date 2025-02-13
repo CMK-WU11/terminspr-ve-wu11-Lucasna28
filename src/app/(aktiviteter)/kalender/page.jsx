@@ -8,7 +8,7 @@ import { redirect } from "next/navigation"
 import * as motion from "motion/react-client"
 
 async function AktiviteterListe() {
-    const cookieStore = cookies()
+    const cookieStore = await cookies()
     const token = cookieStore.get("landrupDans_token")
     const userId = cookieStore.get("LandrupDans_uid")
     

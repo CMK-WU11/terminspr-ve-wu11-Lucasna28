@@ -1,9 +1,15 @@
 import Image from "next/image"
 import Link from "next/link";
+import * as motion from "motion/react-client"
 
 export default function AktivitetsCard({ aktivitet }) {
     return (
-        <li className="w-full h-[20rem] rounded-t-[2rem] rounded-bl-[2rem] overflow-hidden shadow-md flex flex-col justify-end relative">
+        <motion.li
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="w-full h-[20rem] rounded-t-[2rem] rounded-bl-[2rem] overflow-hidden shadow-md flex flex-col justify-end relative"
+        >
             <Link href={`/aktiviteter/${aktivitet.id}`}>
                 <Image 
                     src={aktivitet.asset.url}
@@ -19,6 +25,6 @@ export default function AktivitetsCard({ aktivitet }) {
                     <p className="ml-6"> {aktivitet.minAge}-{aktivitet.maxAge} år</p>
                 </div>
             </Link>
-        </li>
+        </motion.li>
     )
 }

@@ -1,5 +1,6 @@
 "use client"
 
+import Footer from "@/components/Footer"
 import { useEffect } from "react"
 
 export default function Error({error, reset}) {
@@ -8,9 +9,16 @@ export default function Error({error, reset}) {
     }, [error])
 
     return (
-        <>
-        <h1>Noget gik galt: {error}</h1>
-        <button onClick={() => reset()}prøv igen></button>
-        </>
+        <div className="h-screen flex flex-col items-center justify-center p-4 bg-background">
+            <h1 className="text-2xl mb-4">Noget gik galt</h1>
+            <p className="mb-6">{error.message}</p>
+            <button 
+                onClick={() => reset()}
+                className="bg-boxColor px-4 py-2 rounded-lg hover:bg-boxColor/80 transition-colors"
+            >
+                Prøv igen
+            </button>
+            <Footer />
+        </div>
     )
 }

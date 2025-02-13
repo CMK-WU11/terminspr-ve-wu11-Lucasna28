@@ -12,7 +12,7 @@ async function AktiviteterListe() {
     await new Promise(resolve => setTimeout(resolve, 500))
     
     return (
-        <ul className="p-4 flex flex-col h-full justify-start gap-6">
+        <ul className="p-4 flex flex-col h-max pb-18 justify-start gap-6">
             {data?.map(aktivitet => (
                 <AktivitetsCard key={aktivitet.id} aktivitet={aktivitet} />
             ))}

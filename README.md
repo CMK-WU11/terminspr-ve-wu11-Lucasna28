@@ -1,1 +1,41 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/7jjvgYp_)
+# Dokumentation for Din Mægler
+
+Lucas Nordskov Anderson, WU11
+
+Jeg har valgt at lægge min opgave på nettet. Se den her:
+
+Brugere til systemet:
+
+| id  | username    | password | age | role       |
+| --- | ----------- | -------- | --- | ---------- |
+| 1   | instructor1 | 1234     | 24  | instructor |
+| 2   | instructor2 | 1234     | 32  | instructor |
+| 3   | instructor3 | 1234     | 27  | instructor |
+| 4   | instructor4 | 1234     | 31  | instructor |
+| 5   | user1       | 1234     | 14  | default    |
+| 6   | user2       | 1234     | 17  | default    |
+| 7   | user3       | 1234     | 21  | default    |
+| 8   | user4       | 1234     | 24  | default    |
+| 9   | user5       | 1234     | 52  | default    |
+| 10  | user6       | 1234     | 51  | default    |
+
+## Tech-stack
+
+- [**NextJS**](https://nextjs.org)  
+  Jeg har valgt at bruge NextJS, fordi det giver bedre performance ved at rendere komponenter på serveren, routing er gjort nemt med app router, next har optimeret billede loading og optimering,
+  Jeg kunne have valgt VueJS, som er et andet frontend framework, men ...
+- [**TailwindCSS**](https://tailwindcss.com/)  
+  Jeg bruger Tailwind fordi det gør stylingen hurtigere og nemmere at designe responsivt og det er let at tilpasse
+
+  det dårlige ved tailwind er classname kan blive meget lange og avanceret så koden er sværere at kigge igennem
+
+- [**Luide-React**](https://lucide.dev/guide/packages/lucide-react)  
+  jeg bruger luicde react til iconer for at få ensartet iconer gennem hele siden, de er lette at tilpasse og style,
+
+- [**Motion**](https://motion.dev/)
+  Jeg bruger motion til animationer da det er nemt at inplementere komplekse animationer, det understøtter exit animations
+
+- [**Zod**](https://zod.dev/)
+  Jeg bruger zod til valedering på login fordi det er let at definere valederingsregler,
+
+## Kode-eksempel´

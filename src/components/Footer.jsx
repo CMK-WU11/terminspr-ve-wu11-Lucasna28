@@ -8,16 +8,19 @@ export default function Footer(){
                 <li className="rounded-full border-black border-2 p-2 ">
                     <Link href="/aktiviteter">
                     <Home />
+                    <span className="sr-only">Hjem</span>
                     </Link>
                 </li>
                 <li className="rounded-full border-black border-2 p-2 ">
-                    <Link href="/sog">
+                    <Link href="/soeg">
                         <Search />
+                        <span className="sr-only">Søg</span>
                     </Link>
                 </li>
                 <li className="rounded-full border-black border-2 p-2 ">
                     <Link href="/kalender">
                         <Calendar />
+                        <span className="sr-only">Kalender</span>
                     </Link>
                 </li>
             </ul>

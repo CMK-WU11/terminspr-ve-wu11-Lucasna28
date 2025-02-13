@@ -1,7 +1,6 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import { z } from "zod";
 
 export default async function Login(prevState, formData) {
@@ -9,7 +8,6 @@ export default async function Login(prevState, formData) {
   const username = formData.get("username");
   const password = formData.get("password");
   const remember = formData.get("remember") === "on";
-
   // Validerer input med Zod schema
   const schema = z.object({
     username: z

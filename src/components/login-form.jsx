@@ -1,13 +1,18 @@
 "use client"
 
 import Login from "@/actions/login"
+import { useSearchParams } from "next/navigation"
 import { useActionState } from "react"
 
 export default function LoginForm() {
 	const [formState, formAction] = useActionState(Login, null)
+	const searchParams = useSearchParams()
+	const redirectTo = searchParams.get("redirectTo")
 
 	return (
 		<form action={formAction} noValidate className="space-y-4 rotate-245 z-10">
+			{/*skjult input der sender redirectTo værdien med form data når brugeren logger ind*/}
+			<input type="hidden" name="redirectTo" value={redirectTo || ""} />
 			<input
 				defaultValue={formState?.formData?.username}
 				type="text"
