@@ -16,8 +16,6 @@ async function getTilmeldingsStatus(aktivitet, userId) {
 
 async function AktivitetDetaljer({ id }) {
     const aktivitet = await serverFetch(`http://localhost:4000/api/v1/activities/${id}`)
-    console.log(aktivitet);
-    
     const cookieStore = cookies()
     const token = cookieStore.get("landrupDans_token")?.value
     const userId = cookieStore.get("LandrupDans_uid")?.value
@@ -75,7 +73,7 @@ async function AktivitetDetaljer({ id }) {
     )
 }
 
-// Default export component
+// Default export component retunere aktivitetdetaljerskeleton hvis den loader aktivitetdetaljer
 export default function Aktivitet({ params }) {
     return (
         <Suspense fallback={<AktivitetDetaljerSkeleton />}>

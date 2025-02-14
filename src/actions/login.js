@@ -20,33 +20,19 @@ export default async function Login(prevState, formData) {
       .min(4, { message: "Password skal være mindst 4 tegn" }),
   });
 
-  const validate = schema.safeParse({
-    username,
-    password,
-  });
-
-  // Returnerer fejl hvis validering fejler
-  if (!validate.success) {
-    return {
-      formData: {
-        username,
-        password,
-      },
-      errors: validate.error.format(),
-    };
-  }
-
   try {
+    const validate = schema.parse({
+      username,
+      password,
+    });
+
     // Sender login request til API
     const response = await fetch("http://localhost:4000/auth/token", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        username,
-        password,
-      }),
+      body: JSON.stringify(validate),
     });
 
     // Håndterer forkert login
@@ -62,17 +48,28 @@ export default async function Login(prevState, formData) {
 
     const data = await response.json();
 
-    // Hvis "Husk mig" er valgt, gem i 24 timer (maxAge)
-    // Ellers gem som session cookie der slettes når browseren lukkes
+    // Hvis "Husk mig" er valgt, gemmes den i 7 dage (maxAge)
+    // Ellers gemmes den som session cookie der slettes når browseren lukkes
     const cookieStore = await cookies();
     const cookieOptions = {
-      // Hvis remember er false, udelades maxAge så cookien bliver en session cookie
-      ...(remember ? { maxAge: 60 * 60 * 24 } : {}),
+      ...(remember ? { maxAge: 60 * 60 * 24 * 7 } : {}),
     };
 
+    // Gemmer login data i cookies
     cookieStore.set("landrupDans_token", data.token, cookieOptions);
     cookieStore.set("LandrupDans_uid", data.userId, cookieOptions);
+
+    // Returnerer success status
+    return { success: true };
   } catch (error) {
-    throw new Error(error);
+    // Håndterer Zod validerings fejl
+    if (error instanceof z.ZodError) {
+      return {
+        formData: { username, password },
+        errors: error.flatten().fieldErrors,
+      };
+    }
+    // Håndterer andre fejl
+    return { error: "Der skete en fejl ved login" };
   }
 }

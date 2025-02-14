@@ -74,9 +74,9 @@ async function AktiviteterListe() {
     }
 }
 
-export default function Kalender() {
+export default async function Kalender() {
     const cookieStore = cookies()
-    const token = cookieStore.get("landrupDans_token")
+    const token = await cookieStore.get("landrupDans_token")
     
     if (!token) {
         redirect("/logind")
